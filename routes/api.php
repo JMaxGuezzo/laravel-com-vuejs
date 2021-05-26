@@ -1,18 +1,18 @@
 <?php
 
-use App\Http\Controllers\Api\CategoryController;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
-Route::post('auth', [App\Http\Controllers\Auth\AuthApiController::class, 'authenticate']);
-Route::post('auth-refresh', [App\Http\Controllers\Auth\AuthApiController::class, 'refreshToken']);
-Route::get('me', [App\Http\Controllers\Auth\AuthApiController::class, 'getAuthenticatedUser']);
+/*
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register API routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| is assigned the "api" middleware group. Enjoy building your API!
+|
+*/
 
-Route::group([
-    'prefix' => 'v1',
-    'namespace' => 'App\Http\Controllers\Api\v1',
-    'middleware' => 'auth:api'
-], function () {
-    Route::get('categories/{id}/products', [App\Http\Controllers\Api\v1\CategoryController::class, 'products']);
-    Route::apiResource('categories', 'CategoryController');
-    Route::apiResource('products', 'ProductController');
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
